@@ -1,1 +1,1 @@
-A repo for my intermediate JS algorithms
+Collection of JS based algorithms.
