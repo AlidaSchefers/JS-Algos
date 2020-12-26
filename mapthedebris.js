@@ -24,11 +24,12 @@ function orbitalPeriod(arr) {
 console.log(orbitalPeriod([{name : "sputnik", avgAlt : 35873.5553}])) //should return [{name: "sputnik", orbitalPeriod: 86400}]
 console.log(orbitalPeriod([{name: "iss", avgAlt: 413.6}, {name: "hubble", avgAlt: 556.7}, {name: "moon", avgAlt: 378632.553}])) //should return [{name : "iss", orbitalPeriod: 5557}, {name: "hubble", orbitalPeriod: 5734}, {name: "moon", orbitalPeriod: 2377399}]
 
-function orbitalPeriod2(arr) {
+//FreeCodeCamp acceptable solution:
+function orbitalPeriod2(arr) { //the FreeCodeCamp code editor does not support the for..of loop, so here is a solution that does work for FreeCodeCamp:
     const GM = 398600.4418;
     const earthRadius = 6367.4447;
     for (let i = 0; i < arr.length; i++) {
-        // console.log(object)
+        // console.log(object)git
         const avgAlt = arr[i].avgAlt
         const OrbitalPeriod = Math.round(2*Math.PI*Math.sqrt(Math.pow((earthRadius+avgAlt), 3)/GM))
         delete arr[i].avgAlt
