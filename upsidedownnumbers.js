@@ -1,52 +1,47 @@
-//this callenge comes from https://www.codewars.com/kata/59f7597716049833200001eb
+//this challenge comes from https://www.codewars.com/kata/59f7597716049833200001eb
+//solved!
 
 function solve(x, y) {
     let upperNum = x > y ? x : y
     let lowerNum = x > y ? y : x
     let mirrorNums = []
     for(let i = upperNum; i >= lowerNum; i--) {
-        if(giveNumIfMirror(i)) {
-            mirrorNums.push(giveNumIfMirror(i))
+        // console.log(`is the number ${i} a mirror num? let's see! -------`)
+        if(giveMirroredNum(i)) {
+            mirrorNums.push(giveMirroredNum(i))
+            // mirrorNums.push(null) //why does null get added to mirrorNums with this line, but null is not added when it comes from the below giveMirroredNum() function?
         }
     }
-    return mirrorNums
+    return mirrorNums.length
    };
 
-function giveNumIfMirror(i) {
-    if(!RegExp('[23457]').test(i)) { //checks if there is not any instance of 2, 3, 4, 5, or 7
-        //for 0 1 8 need to have the same num same distance away from the middle.
-                //for 6 and 9, instead of it being the same num, need to be the corresponding num same distance from middle
-        if(i.length % 2 !== 0) { // checks if the number of characters in the string is odd
-            const middleIndex = i[Math.floor(i.length/2)]
-            RegExp('[018]').test(i[middleIndex]) //boolean: true if the middle integer is 0 1 or 8
-                //middle integer needs to be either 0 1 or 8
-            console.log(`${i} has middle integer 0 1 or 8`)
-            return i
+
+function giveMirroredNum(i) {
+    i = i.toString() //change to string so we can find length and use regExs.
+    let numPairs = {'0' : '0', '1' : '1', '8' : '8', '6' : '9', '9' : '6'}
+    if(!RegExp('[23457]').test(i)) { //checks if the number is FREE of 2, 3, 4, 5, or 7.
+        const middleOrBeforeIndex = Math.floor(i.length/2)
+        if(i.length % 2 !== 0) { // checks if the number of characters in the string is odd. if so, the middle num needs to be 0,1, or 8.
+            if(!RegExp('[018]').test(i[middleOrBeforeIndex])) { //boolean: the middle integer is NOT 0 1 or 8 (bad), then...
+                return null
+            }
         }
-        else{ //is the number of chara in the string is even
-            return null
+        //now that odd-lengthed num's middle num checks out OR i is even-lengthed
+        for (let j = 0; j < middleOrBeforeIndex; j++) { //look at each num until before the middle num or before more than half index spot.
+            const currentNum = i[j]
+            const compareNumIndex = (i.length-1-j)
+            if(i[compareNumIndex] !== numPairs[currentNum]) {
+                return null
+            }
         }
     }else{
-        console.log(`${i}: this contains an instance of 2,3,4,5, or 7`)
         return null
     }
+    return i
 }
-//nums that are the same upside-down: 018
-//Careful with 9 and 6. they need to go together with same instances for each. (e.g. 9966 ok and 96 ok, but 996 is not.)
-//9086 is not ok.
-//think of things as mirrors with 0, 1, 8
-//8808 is does not work upside down. 
 
-//first get rid of numbers that have nums that have 2 3 4 5 7
-// const str = 'table football'
-// const str02 = '000038'
-// const regex01 = RegExp('foo*')
-// const regex02 = RegExp('[23457]')
-// const globalRegex = RegExp('foo*', 'g')
-// console.log(regex01.test(str))
-// console.log(regex02.test(str02))
-console.log(RegExp('[23457]').test('000038'))
-console.log(!RegExp('[23457]').test(108))
-
-console.log(solve(104, 100))
-// console.log(Math.floor(5.5))
+console.log(solve(1000, 10000)) //should give 20
+// console.log(solve(181906181, 181906180)) //should give 1
+// console.log(giveMirroredNum(181906181, 181906180))
+// console.log(giveMirroredNum(081906180, 81906179))
+// console.log(giveMirroredNum(181906181))
